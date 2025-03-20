@@ -5,7 +5,7 @@ A React-based frontend for claiming coupons and managing them via an admin panel
 ## Setup
 1. **Navigate to Frontend**:
    ```bash
-   cd coupon-app/client
+   client
    ```
 2. **Install Dependencies**:
    ```bash
@@ -43,12 +43,3 @@ A React-based frontend for claiming coupons and managing them via an admin panel
 
 ---
 
-### Placement
-- Save this as `coupon-app/client/README.md` to keep it specific to the frontend.
-
-### Why Simple?
-- Focuses only on frontend setup and usage.
-- Omits backend details, deployment, and advanced testing to keep it minimal as requested.
-- Covers the core actions: getting a coupon and logging in as admin.
-
-Let me know if you need further simplification or additional details!
