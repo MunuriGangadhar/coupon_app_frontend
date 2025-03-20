@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import BASE_URL from '../config';
 function UserPage() {
   const [message, setMessage] = useState('');
 
   const claimCoupon = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/claim-coupon', { withCredentials: true });
+      const res = await axios.get(`${BASE_URL}/api/claim-coupon`, { withCredentials: true });
       setMessage(res.data.message + (res.data.code ? `: ${res.data.code}` : ''));
     } catch (err) {
       setMessage(err.response?.data.message || 'Error claiming coupon');

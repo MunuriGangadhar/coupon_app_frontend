@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import BASE_URL from '../config';
 
 function AdminPage() {
   const [token, setToken] = useState('');
@@ -11,41 +12,79 @@ function AdminPage() {
 
   const login = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/login', { username, password });
-      setToken(res.data.token);
-      localStorage.setItem('token', res.data.token);
+      const res = await axios.post(`${BASE_URL}/api/admin/login`, { username, password });
+      const newToken = res.data.token;
+      console.log("Login successful, token:", newToken);
+      setToken(newToken);
+      localStorage.setItem('token', newToken);
+      await fetchData(); // Fetch data immediately after login
     } catch (err) {
-      alert('Login failed');
+      console.error("Login error:", err.response?.data);
+      alert('Login failed: ' + (err.response?.data.message || 'Unknown error'));
     }
   };
 
   const fetchData = async () => {
+    console.log("Fetching data with BASE_URL:", BASE_URL);
+    console.log("Token:", token);
+    if (!token) {
+      console.log("No token available, skipping fetch");
+      return;
+    }
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const [couponsRes, claimsRes] = await Promise.all([
-      axios.get('http://localhost:5000/api/admin/coupons', config),
-      axios.get('http://localhost:5000/api/admin/claims', config)
-    ]);
-    setCoupons(couponsRes.data);
-    setClaims(claimsRes.data);
+    try {
+      const [couponsRes, claimsRes] = await Promise.all([
+        axios.get(`${BASE_URL}/api/admin/coupons`, config),
+        axios.get(`${BASE_URL}/api/admin/claims`, config)
+      ]);
+      setCoupons(couponsRes.data);
+      setClaims(claimsRes.data);
+    } catch (err) {
+      console.error("Fetch error:", err.response?.status, err.response?.data);
+    }
   };
 
   const addCoupon = async () => {
+    if (!token) {
+      alert("Please log in first");
+      return;
+    }
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    await axios.post('http://localhost:5000/api/admin/coupons', { code: newCoupon }, config);
-    setNewCoupon('');
-    fetchData();
+    try {
+      await axios.post(`${BASE_URL}/api/admin/coupons`, { code: newCoupon }, config);
+      setNewCoupon('');
+      await fetchData();
+    } catch (err) {
+      console.error("Add coupon error:", err.response?.data);
+      alert('Failed to add coupon: ' + (err.response?.data.message || 'Unknown error'));
+    }
   };
 
   const toggleCoupon = async (id, isActive) => {
+    if (!token) {
+      alert("Please log in first");
+      return;
+    }
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    await axios.put(`http://localhost:5000/api/admin/coupons/${id}`, { isActive: !isActive }, config);
-    fetchData();
+    try {
+      await axios.put(`${BASE_URL}/api/admin/coupons/${id}`, { isActive: !isActive }, config);
+      await fetchData();
+    } catch (err) {
+      console.error("Toggle coupon error:", err.response?.data);
+      alert('Failed to toggle coupon: ' + (err.response?.data.message || 'Unknown error'));
+    }
   };
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    if (storedToken) {
+    console.log("Stored token from localStorage:", storedToken);
+    if (storedToken && !token) {
       setToken(storedToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
       fetchData();
     }
   }, [token]);
@@ -128,7 +167,7 @@ function AdminPage() {
           {claims.map(claim => (
             <tr key={claim._id}>
               <td>{claim.ip}</td>
-              <td>{claim.couponId?.code}</td>
+              <td>{claim.couponId?.code || 'Unknown'}</td>
               <td>{new Date(claim.timestamp).toLocaleString()}</td>
             </tr>
           ))}

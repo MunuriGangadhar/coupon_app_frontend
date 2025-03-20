@@ -1,10 +1,10 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
+import BASE_URL from './config';
 module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://localhost:5000',
+      target: process.env.BASE_URL,
       changeOrigin: true,
     })
   );
