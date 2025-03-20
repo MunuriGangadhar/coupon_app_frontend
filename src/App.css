@@ -1,38 +1,235 @@
-.App {
-  text-align: center;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* User Page Styles */
+.user-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.user-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.claim-button {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.claim-button:hover {
+  background-color: #2980b9;
+}
+
+.success-message {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #27ae60;
+}
+
+.error-message {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #c0392b;
+}
+
+/* Login Page Styles */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #ecf0f1;
+}
+
+.login-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.login-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.login-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #c0392b;
+}
+
+/* Admin Page Styles */
+.admin-page {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-page h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.add-coupon {
+  margin-bottom: 40px;
+}
+
+.add-coupon h2 {
+  font-size: 1.8rem;
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.coupon-input {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.add-button {
+  background-color: #27ae60;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #219653;
+}
+
+/* Table Styles */
+.coupon-table,
+.claim-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-table th,
+.coupon-table td,
+.claim-table th,
+.claim-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.coupon-table th,
+.claim-table th {
+  background-color: #34495e;
+  color: white;
+  font-weight: bold;
+}
+
+.coupon-table tr:nth-child(even),
+.claim-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.enable-button,
+.disable-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.enable-button {
+  background-color: #27ae60;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.enable-button:hover {
+  background-color: #219653;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.disable-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.disable-button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .coupon-table,
+  .claim-table {
+    font-size: 0.9rem;
+  }
+
+  .coupon-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .add-button {
+    width: 100%;
+  }
+
+  .user-page h1 {
+    font-size: 2rem;
+  }
+
+  .claim-button {
+    padding: 10px 20px;
+    font-size: 1rem;
   }
 }
